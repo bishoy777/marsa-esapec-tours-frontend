@@ -14,10 +14,6 @@
         </UiBaseFormModal>
     </UiBaseOverlay>
     <div class="bg-gray-50 py-10">
-        <section id="table">
-            <UiTableBaseTable :cols="cols" :rows="rows">
-            </UiTableBaseTable>
-        </section>
     </div>
 </template>
 
