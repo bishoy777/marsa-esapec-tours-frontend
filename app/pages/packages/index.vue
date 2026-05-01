@@ -162,7 +162,7 @@ const changePage = (page: number) => {
 }
 const { data, pending, refresh } = useAsyncData('packages', async () => {
     const { $api } = useNuxtApp()
-    const res = await $api.get(`/package?page=${pagination.value.page}&perPage=${pagination.value.perpage}`)
+    const res = await $api.get(`/package?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
     pagination.value.total = res?.data?.data?.total
     pagination.value.page = res?.data?.data?.page
     return res

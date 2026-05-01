@@ -227,14 +227,13 @@ const pagination = ref({
     total: 1
 })
 const changePage = (page: number) => {
-    console.log("page changed sssto ", page)
+
     pagination.value.page = page
     refresh()
 }
 const { data, pending, refresh } = useAsyncData('trips', async () => {
     const { $api } = useNuxtApp()
-    console.log("fetching data with page ", pagination.value.page, " and perpage ", pagination.value.perpage)
-    const res = $api.get(`/trip?page=${pagination.value.page}&perPage=${pagination.value.perpage}`)
+    const res = $api.get(`/trip?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
     pagination.value.total = res?.data?.data?.total
     pagination.value.page = res?.data?.data?.page
     return res

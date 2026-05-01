@@ -62,7 +62,7 @@ const { data, pending, refresh } = useAsyncData(
     'simcards',
     async () => {
         const { $api } = useNuxtApp()
-        const res = await $api.get(`/simcards?page=${pagination.value.page}&perPage=${pagination.value.perpage}`)
+        const res = await $api.get(`/simcards?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
         pagination.value.total = res?.data?.data?.total
         pagination.value.page = res?.data?.data?.page
         return res
@@ -118,8 +118,8 @@ const cols = ref([{
 },
 ])
 const rows = computed(() => {
-    
-    if (!data.value) return []; 
+
+    if (!data.value) return [];
     return data?.value?.data?.data?.map((T: any) => ({
         id: { value: T.id, class: '' },
         capacity: { value: T.capacity, class: '' },

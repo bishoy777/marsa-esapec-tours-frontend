@@ -95,7 +95,7 @@ const { data, pending, refresh } = useAsyncData(
     async () => {
 
         const { $api } = useNuxtApp()
-        const res = await $api.get(`/taxi?page=${pagination.value.page}&perPage=${pagination.value.perpage}`)
+        const res = await $api.get(`/taxi?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
         pagination.value.total = res?.data?.data?.total
         pagination.value.page = res?.data?.data?.page
         return res
@@ -201,6 +201,7 @@ const submit = async () => {
         const res = modalType.value === 'edit' ? await editTaxiTransfer(selectedId.value, formData.value) : await addTaxiTransfer(formData.value)
         addToast("تمت اضافة الرحلة بنجاح", "success")
         resetValues()
+        formData.value.isHotel = false
         refresh()
         openModal.value = false
     } catch (error) {

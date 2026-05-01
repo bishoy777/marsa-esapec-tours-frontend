@@ -1,6 +1,6 @@
 <template>
     <section class="p-6 max-w-2xl mx-auto space-y-6" dir="rtl">
-        <div v-if="!details.customerName"
+        <div v-if="!details?.customerName"
             class="flex flex-col items-center justify-center text-center text-gray-500 py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
             <div class="text-5xl mb-4">📄</div>
             <p class="text-xl font-medium">لا توجد تفاصيل للحجز حالياً</p>

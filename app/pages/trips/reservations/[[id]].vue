@@ -112,7 +112,7 @@ const { addToast } = useToast();
 const selectedOptions = ref<Record<string, string | number>[]>([{}])
 const { data, pending, refresh } = useAsyncData('reservations', async () => {
     const { $api } = useNuxtApp()
-    const res = await $api.get(`/reservations?page=${pagination.value.page}&perPage=${pagination.value.perpage}`)
+    const res = await $api.get(`/reservations?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
     pagination.value.total = res?.data?.data?.total
     pagination.value.page = res?.data?.data?.page
     return res
@@ -134,6 +134,7 @@ const formData = ref<Record<string, string | null>>({
     roomNumber: null,
     specialRequest: null,
     tripId: null,
+    type: null
 
 })
 const errors = ref<Record<string, string | null>>({
@@ -298,11 +299,12 @@ const openOverly = (id: number, type: string) => {
     modalType.value = type as "add" | "view"
     openModal.value = true;
     selectedId.value = id
-    formData.value.type = data.value?.data.find((T: any) => T.id === id).type
+    
+    formData.value.type = data.value?.data?.data.find((T: any) => T.id === id).type
 }
 const detailsComponetPorps = computed(() => {
     if (!data.value) return {};
-    const reservation = data.value.data.find((T: any) => T.id === selectedId.value)
+    const reservation = data.value.data?.data.find((T: any) => T.id === selectedId.value)
     console.log("reservation", reservation)
     return {
         customerName: reservation.name,

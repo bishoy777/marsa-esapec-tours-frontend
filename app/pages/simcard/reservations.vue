@@ -73,7 +73,7 @@ const { data, pending, refresh } = useAsyncData(
     'taxibooking',
     async () => {
         const { $api } = useNuxtApp()
-        const res = await $api.get(`/simcards?page=${pagination.value.page}&perPage=${pagination.value.perpage}`)
+        const res = await $api.get(`/simcards?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
         pagination.value.total = res?.data?.data?.total
         pagination.value.page = res?.data?.data?.page
         return res
