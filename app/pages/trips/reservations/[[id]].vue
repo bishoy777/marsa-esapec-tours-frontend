@@ -1,10 +1,14 @@
 <template>
     <section>
-        <div class="flex flex-wrap items-center justify-between gap-3 p-4">
-            <!-- Filters -->
-            <div class="bg-gray-50/50 p-4 rounded-2xl border border-gray-100 shadow-sm" dir="rtl">
-                <div class="flex flex-wrap items-center gap-4">
-                    <div class="flex flex-col gap-1.5 min-w-[160px] flex-1 md:flex-none">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 p-4" dir="rtl">
+
+            <!-- Filters Area: flex-1 ensures it takes available space -->
+            <div class="bg-gray-50/50 p-4 rounded-2xl border border-gray-100 shadow-sm flex-1">
+                <!-- Inner Flex: Columns on mobile, row on lg -->
+                <div class="flex flex-col lg:flex-row lg:items-end gap-4">
+
+                    <!-- Date Filter -->
+                    <div class="flex flex-col gap-1.5 w-full lg:min-w-[160px] lg:flex-1">
                         <label class="text-xs font-bold text-gray-500 mr-1">تاريخ الرحلة</label>
                         <div class="relative">
                             <span
@@ -13,7 +17,9 @@
                                 class="w-full pr-10 pl-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
                         </div>
                     </div>
-                    <div class="flex flex-col gap-1.5 min-w-[140px] flex-1 md:flex-none">
+
+                    <!-- Status Filter -->
+                    <div class="flex flex-col gap-1.5 w-full lg:min-w-[140px] lg:flex-1">
                         <label class="text-xs font-bold text-gray-500 mr-1">حالة الحجز</label>
                         <select v-model="filters.status"
                             class="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all appearance-none cursor-pointer">
@@ -24,7 +30,9 @@
                             <option value="ended">🏁 منتهي</option>
                         </select>
                     </div>
-                    <div class="flex flex-col gap-1.5 min-w-[200px] flex-1 md:flex-none">
+
+                    <!-- Trip Selection -->
+                    <div class="flex flex-col gap-1.5 w-full lg:min-w-[200px] lg:flex-1">
                         <label class="text-xs font-bold text-gray-500 mr-1">اختر الرحلة</label>
                         <select v-model="filters.tripId"
                             class="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all cursor-pointer">
@@ -34,23 +42,27 @@
                             </option>
                         </select>
                     </div>
-                    <div class="flex items-end gap-2 pt-5">
+
+                    <!-- Search/Clear Buttons: Full width on mobile -->
+                    <div class="flex items-center gap-2 w-full lg:w-auto pt-2 lg:pt-0">
                         <button @click="applyFilters"
-                            class="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-200 transition-all active:scale-95">
+                            class="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-200 transition-all active:scale-95">
                             <span>🔍</span> بحث
                         </button>
                         <button @click="clearFilters"
-                            class="px-4 py-2.5 bg-white hover:bg-gray-50 text-gray-500 border border-gray-200 rounded-xl text-sm font-medium transition-all active:scale-95">
+                            class="flex-1 lg:flex-none px-4 py-2.5 bg-white hover:bg-gray-50 text-gray-500 border border-gray-200 rounded-xl text-sm font-medium transition-all active:scale-95">
                             إعادة تعيين
                         </button>
                     </div>
                 </div>
             </div>
-            <!-- Add Button -->
+
+            <!-- Add Button: Full width on mobile, sticks to the left on desktop -->
             <button @click="openModal = true; modalType = 'add'"
-                class="flex items-center gap-2 bg-primary font-medium hover:bg-primary/90 text-gray-500 px-5 py-2.5 rounded-xl shadow-sm hover:shadow-md transition duration-200">
-                اضافة حجز جديد
+                class="w-full md:w-auto flex items-center justify-center gap-2 bg-primary font-medium hover:bg-primary/90 text-gray-500 px-5 py-3 rounded-xl shadow-sm hover:shadow-md transition duration-200 shrink-0">
+                <span>➕</span> اضافة حجز جديد
             </button>
+
         </div>
         <section id="render_hidden_details">
             <UiBaseOverlay :open-modal="openModal">
@@ -299,7 +311,7 @@ const openOverly = (id: number, type: string) => {
     modalType.value = type as "add" | "view"
     openModal.value = true;
     selectedId.value = id
-    
+
     formData.value.type = data.value?.data?.data.find((T: any) => T.id === id).type
 }
 const detailsComponetPorps = computed(() => {

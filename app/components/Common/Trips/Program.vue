@@ -10,38 +10,45 @@
         <div v-for="day in program" :key="day.id" class="bg-white border border-border rounded-xl p-5 shadow-sm">
 
             <!-- Day Title -->
-            <h2 class="font-bold text-lg text-gray-800 mb-4">
+            <h2 class="font-bold text-lg text-gray-800 mb-4 pb-2 border-b border-gray-50">
                 اليوم {{ day.dayNumber }}
             </h2>
 
             <!-- Timeline -->
-            <div class="space-y-4">
+            <div class="space-y-6">
 
                 <!-- Morning -->
-                <div>
-                    <h3 class="font-medium text-sm text-primary mb-2">🌅 Morning</h3>
-                    <ul class="list-disc pl-5 text-sm text-gray-600 space-y-1">
-                        <li v-for="(item, i) in day.morning" :key="i">
+                <div v-if="day.morning?.length">
+                    <h3 class="font-medium text-sm text-primary mb-2 flex items-center gap-2">
+                        <span>🌅</span> Morning
+                    </h3>
+                    <!-- Changed pl-5 to pr-5 and added list-inside for better RTL mobile support -->
+                    <ul class="list-disc pr-5 text-sm text-gray-600 space-y-2">
+                        <li v-for="(item, i) in day.morning" :key="i" class="leading-relaxed">
                             {{ item }}
                         </li>
                     </ul>
                 </div>
 
                 <!-- Afternoon -->
-                <div>
-                    <h3 class="font-medium text-sm text-orange-500 mb-2">☀️ Afternoon</h3>
-                    <ul class="list-disc pl-5 text-sm text-gray-600 space-y-1">
-                        <li v-for="(item, i) in day.afternoon" :key="i">
+                <div v-if="day.afternoon?.length">
+                    <h3 class="font-medium text-sm text-orange-500 mb-2 flex items-center gap-2">
+                        <span>☀️</span> Afternoon
+                    </h3>
+                    <ul class="list-disc pr-5 text-sm text-gray-600 space-y-2">
+                        <li v-for="(item, i) in day.afternoon" :key="i" class="leading-relaxed">
                             {{ item }}
                         </li>
                     </ul>
                 </div>
 
                 <!-- Evening -->
-                <div>
-                    <h3 class="font-medium text-sm text-indigo-500 mb-2">🌙 Evening</h3>
-                    <ul class="list-disc pl-5 text-sm text-gray-600 space-y-1">
-                        <li v-for="(item, i) in day.evening" :key="i">
+                <div v-if="day.evening?.length">
+                    <h3 class="font-medium text-sm text-indigo-500 mb-2 flex items-center gap-2">
+                        <span>🌙</span> Evening
+                    </h3>
+                    <ul class="list-disc pr-5 text-sm text-gray-600 space-y-2">
+                        <li v-for="(item, i) in day.evening" :key="i" class="leading-relaxed">
                             {{ item }}
                         </li>
                     </ul>
@@ -54,6 +61,8 @@
 </template>
 
 <script setup lang="ts">
+import { toRefs } from 'vue';
+
 interface DayProgram {
     id: number
     dayNumber: number

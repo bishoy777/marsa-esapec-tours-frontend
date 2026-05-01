@@ -1,21 +1,22 @@
 <template>
-    <section class="p-6 max-w-2xl mx-auto space-y-6" dir="rtl">
+    <section class="p-4 md:p-6 max-w-2xl mx-auto space-y-6" dir="rtl">
         <div v-if="!details?.customerName"
             class="flex flex-col items-center justify-center text-center text-gray-500 py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
             <div class="text-5xl mb-4">📄</div>
-            <p class="text-xl font-medium">لا توجد تفاصيل للحجز حالياً</p>
+            <p class="text-xl font-medium px-4">لا توجد تفاصيل للحجز حالياً</p>
         </div>
         <div v-else class="space-y-6">
+            <!-- Header: Optimized for mobile stacking -->
             <div
-                class="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                <div class="flex items-center gap-4">
-                    <h1 class="text-2xl font-black text-gray-900">تفاصيل الحجز</h1>
+                class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex items-center justify-between sm:justify-start gap-4">
+                    <h1 class="text-xl md:text-2xl font-black text-gray-900">تفاصيل الحجز</h1>
                     <span :class="{
                         'bg-yellow-100 text-yellow-700': details.status === 'pending',
                         'bg-green-100 text-green-700': details.status === 'confirmed',
                         'bg-red-100 text-red-700': details.status === 'cancelled',
                         'bg-blue-100 text-blue-700': details.status === 'ended'
-                    }" class="px-4 py-1 rounded-full text-sm font-bold">
+                    }" class="px-4 py-1 rounded-full text-sm font-bold whitespace-nowrap">
                         {{
                             details.status === 'pending' ? 'قيد الانتظار' :
                                 details.status === 'confirmed' ? 'مؤكد' :
@@ -24,25 +25,26 @@
                     </span>
                 </div>
 
-                <div class="flex items-center gap-2">
-
+                <div class="flex items-center gap-2 w-full sm:w-auto">
                     <template v-if="details.status === 'pending'">
                         <button @click="$emit('changeStatus', 'confirmed')"
-                            class="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-md active:scale-95">
-                            <span>✅</span> تأكيد الحجز
+                            class="flex-1 sm:flex-none flex items-center justify-center gap-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-md active:scale-95">
+                            <span>✅</span> تأكيد
                         </button>
                         <button @click="$emit('changeStatus', 'cancelled')"
-                            class="flex items-center gap-1 bg-white hover:bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-lg text-sm font-bold transition-all active:scale-95">
+                            class="flex-1 sm:flex-none flex items-center justify-center gap-1 bg-white hover:bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-lg text-sm font-bold transition-all active:scale-95">
                             <span>❌</span> إلغاء
                         </button>
                     </template>
                     <button v-if="details.status === 'confirmed'" @click="$emit('changeStatus', 'ended')"
-                        class="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-md active:scale-95">
+                        class="w-full sm:w-auto flex items-center justify-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-md active:scale-95">
                         <span>🏁</span> إنهاء الحجز
                     </button>
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- Grid already handles md:grid-cols-2 well -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div
                     class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-blue-200 transition-colors">
                     <div class="flex items-center gap-3 mb-4 text-blue-600">
@@ -86,12 +88,14 @@
                     </ul>
                 </div>
             </div>
+
+            <!-- Accommodation: Grid 1col on mobile, 2col on desktop -->
             <div class="bg-gradient-to-l from-indigo-50 to-white p-6 rounded-2xl border border-indigo-100">
                 <div class="flex items-center gap-3 mb-4 text-indigo-700">
                     <span class="text-xl">🏨</span>
                     <h2 class="font-bold text-lg">تفاصيل الإقامة</h2>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="bg-white/60 p-3 rounded-lg">
                         <p class="text-xs text-indigo-500 mb-1">الفندق</p>
                         <p class="font-bold text-gray-800">{{ details.hotel }}</p>
@@ -102,6 +106,7 @@
                     </div>
                 </div>
             </div>
+
             <div v-if="details.specialRequest"
                 class="bg-amber-50 p-5 rounded-2xl border border-amber-100 relative overflow-hidden">
                 <div class="absolute -left-2 -top-2 text-amber-200/50 text-6xl select-none">“</div>
@@ -117,8 +122,6 @@
 </template>
 
 <script setup lang="ts">
-import { emit } from 'node:cluster'
-
 interface Props {
     customerName?: string
     tripName?: string
@@ -138,5 +141,4 @@ defineProps<{
 const emits = defineEmits<{
     (e: 'changeStatus', status: string): void
 }>()
-
 </script>
