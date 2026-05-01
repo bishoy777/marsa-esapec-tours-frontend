@@ -43,12 +43,12 @@
                 </div>
 
                 <!-- Evening -->
-                <div v-if="day.evening?.length">
+                <div v-if="day.evining?.length">
                     <h3 class="font-medium text-sm text-indigo-500 mb-2 flex items-center gap-2">
-                        <span>🌙</span> Evening
+                        <span>🌙</span> Evining
                     </h3>
                     <ul class="list-disc pr-5 text-sm text-gray-600 space-y-2">
-                        <li v-for="(item, i) in day.evening" :key="i" class="leading-relaxed">
+                        <li v-for="(item, i) in day.evining" :key="i" class="leading-relaxed">
                             {{ item }}
                         </li>
                     </ul>
@@ -68,7 +68,7 @@ interface DayProgram {
     dayNumber: number
     morning: string[]
     afternoon: string[]
-    evening: string[]
+    evining: string[]
 }
 
 const props = defineProps<{

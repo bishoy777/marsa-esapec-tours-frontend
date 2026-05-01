@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { editTaxiTransfer, deleteTripType, addTaxiTransfer } from "@/services/trips";
+import { editTaxiTransfer, deleteTaxiTrip, addTaxiTransfer } from "@/services/trips";
 import { useValidation } from '@/composables/useValidation'; import {
     faPen, faTrash
 } from '@fortawesome/free-solid-svg-icons'
@@ -119,7 +119,7 @@ const errors = ref<Record<string, string | null>>({
     to: null,
     sedanPrice: null,
     HighSprice: null,
-    isHotel: null
+
 })
 const modalType = ref<"add" | "edit">("add")
 const selectedId = ref<number | null>(null)
@@ -201,12 +201,13 @@ const submit = async () => {
         const res = modalType.value === 'edit' ? await editTaxiTransfer(selectedId.value, formData.value) : await addTaxiTransfer(formData.value)
         addToast("تمت اضافة الرحلة بنجاح", "success")
         resetValues()
+        resetErrors()
         formData.value.isHotel = false
         refresh()
         openModal.value = false
     } catch (error) {
         addToast("حدث خطأ اثناء اضافة الرحلة", "error")
-         
+
     } finally {
         buttonLoading.value = false
     }
@@ -216,6 +217,7 @@ const openoverly = (id: number, type: 'add'
     | 'edit'
 ) => {
     resetValues()
+    formData.value.isHotel = false
     resetErrors()
     modalType.value = type
     openModal.value = true
@@ -232,12 +234,12 @@ const openoverly = (id: number, type: 'add'
 }
 const removeTripType = async (id: number) => {
     try {
-        await deleteTripType(id)
+        await deleteTaxiTrip(id)
         addToast("تم حذف نوع الرحلة ", "success")
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء حذف نوع ", "error")
-         
+
     }
 }   
 </script>

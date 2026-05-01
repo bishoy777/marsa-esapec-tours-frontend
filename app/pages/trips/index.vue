@@ -514,25 +514,25 @@ const FormInupts = ref([{
 }])
 const handleRemove = async (id: number) => {
     if (!data.value) return
-    const tripIndex = data.value.data.findIndex(
+    const tripIndex = data.value.data?.data.findIndex(
         (trip: any) => trip.id === selectedTripId.value
     )
-    const backupImages = [...data.value.data[tripIndex].images]
+    const backupImages = [...data.value.data?.data[tripIndex].images]
     if (tripIndex === -1) return
-    data.value.data[tripIndex].images =
-        data.value.data[tripIndex].images.filter(
+    data.value.data.data[tripIndex].images =
+        data.value.data?.data[tripIndex].images.filter(
             (img: any) => img.id !== id
         )
-    data.value = { ...data.value, ...data.value?.data }
+    data.value = { ...data.value, ...data.value?.data?.data }
     try {
         const res = await deleteImage(id)
         addToast('تم حذف الصورة بنجاح', 'success')
     } catch (err) {
         addToast(' حدث خطاء اثناء حذف الصورة', 'error')
         if (data.value) {
-            data.value.data[tripIndex].images = backupImages
+            data.value.data.data[tripIndex].images = backupImages
             data.value = {
-                ...data.value, ...data.value?.data
+                ...data.value, ...data.value?.data?.data
             }
         }
     }
@@ -548,7 +548,7 @@ const handleAddImages = async (FormData: Event) => {
 };
 const handleStatus = async ({ id, status }: { id: number; status: string }) => {
     try {
-         
+
         await edtiReviewStatus(id, { status: status })
 
         addToast('تم تغيير حالة التقييم بنجاح', 'success')
@@ -575,7 +575,7 @@ const submit = async () => {
     }))
     try {
         buttonLoading.value = true
-         
+
         const res = modalType.value === 'form' ? await addTrip(formData.value) : await editTrip(selectedTripId.value, formData.value)
         addToast('تم اضافة الرحلة بنجاح', 'success')
         resetValues()
@@ -615,8 +615,8 @@ const submit = async () => {
 }
 const removeTrip = async (id: number) => {
     if (!data.value) return
-    const backupTrips = [...data.value.data]
-    data.value.data = data.value.data.filter((t: any) => t.id !== id)
+    const backupTrips = [...data.value.data?.data]
+    data.value.data = data.value.data?.data.filter((t: any) => t.id !== id)
     try {
         const res = await deleteTrip(id)
         addToast('تم حذف الرحلة بنجاح', 'success')

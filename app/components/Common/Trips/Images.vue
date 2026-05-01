@@ -40,8 +40,9 @@ const emits = defineEmits<{
     (e: 'deleteImage', id: number): void;
     (e: 'addImage', formData: any): void;
 }>()
+const config = useRuntimeConfig();
 
-const BASE_URL = 'https://captivating-emotion-production-cee2.up.railway.app'
+const BASE_URL = config.public.apiBase;
 
 const { images } = toRefs(props)
 

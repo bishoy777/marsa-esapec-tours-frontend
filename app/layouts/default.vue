@@ -1,9 +1,9 @@
 <template>
-    <section id="layout" class="flex flex-row gap-2 md:gap-4 my-4 h-screen " dir="rtl">
+    <section id="layout" class="flex flex-row gap-2 md:gap-4 my-4 min-h-screen " dir="rtl">
         
         <!-- Sidebar -->
         <!-- Logic: w-20 for icons on mobile, w-72 for full text on desktop -->
-        <aside class="w-20 sm:w-72 bg-primary relative py-6 h-full rounded-3xl flex flex-col transition-all duration-300 shadow-xl z-50">
+        <aside class="w-20 sm:w-72 bg-primary relative py-6 h-full rounded-3xl flex flex-col transition-all duration-300 shadow-xl ">
             
             <!-- Logo Area -->
             <div class="flex justify-center mb-10 shrink-0">
