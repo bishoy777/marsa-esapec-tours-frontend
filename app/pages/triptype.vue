@@ -109,7 +109,7 @@ const submit = async () => {
         openModal.value = false
     } catch (error) {
         addToast("حدث خطأ اثناء اضافة نوع الرحلة", "error")
-        console.log(error)
+         
     } finally {
         buttonLoading.value = false
     }
@@ -131,7 +131,7 @@ const removeTripType = async (id: number) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء حذف نوع الرحلة", "error")
-        console.log(error)
+         
     }
 }   
 </script>

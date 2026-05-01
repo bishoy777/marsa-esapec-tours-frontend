@@ -55,9 +55,11 @@ export async function getTripTypes() {
 }
 export async function filterReservation(query: any) {
   const { $api } = useNuxtApp();
-  return await $api.get("/reservations/search", {
+  const res = await $api.get("/reservations/search", {
     params: query,
   });
+
+  return res.data; // ✅ FIX
 }
 export async function addImage(id: number, param: any) {
   const { $api } = useNuxtApp();

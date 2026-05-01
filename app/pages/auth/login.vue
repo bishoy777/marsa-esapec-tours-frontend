@@ -41,7 +41,7 @@ const { validateRequiredInput, resetValues, resetErrors } = useValidation(formDa
 const handleLogin = async () => {
     const isValid = validateRequiredInput()
     if (!isValid) return
-    console.log(loading.value);
+     
     resetErrors()
     loading.value = true
     try {
@@ -55,9 +55,9 @@ const handleLogin = async () => {
         loading.value = false
         resetValues()
 
-        console.log(errors.value)
+         
     }
-    console.log(errors.value)
+     
 
 }
 </script>

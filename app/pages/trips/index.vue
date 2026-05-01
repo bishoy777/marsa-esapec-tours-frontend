@@ -548,7 +548,7 @@ const handleAddImages = async (FormData: Event) => {
 };
 const handleStatus = async ({ id, status }: { id: number; status: string }) => {
     try {
-        console.log(id, status)
+         
         await edtiReviewStatus(id, { status: status })
 
         addToast('تم تغيير حالة التقييم بنجاح', 'success')
@@ -575,7 +575,7 @@ const submit = async () => {
     }))
     try {
         buttonLoading.value = true
-        console.log(formData.value)
+         
         const res = modalType.value === 'form' ? await addTrip(formData.value) : await editTrip(selectedTripId.value, formData.value)
         addToast('تم اضافة الرحلة بنجاح', 'success')
         resetValues()

@@ -16,7 +16,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   });
   instance.interceptors.request.use(
     (axiosConfig: InternalAxiosRequestConfig) => {
-      console.log(config.public.apiBase);
+       
 
       const token = useCookie("token").value;
  
@@ -32,7 +32,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       return response;
     },
     (error: AxiosError) => {
-      console.log(error);
+       
       const message = (error.response?.data as any)?.message;
 
       addToast(message, "error");

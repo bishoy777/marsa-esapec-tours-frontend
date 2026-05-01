@@ -88,7 +88,7 @@ const pagination = {
 }
 
 const chagePage = (page: number) => {
-    console.log("page changed to ", page)
+     
     emits('changePage', page)
 }
 const formatArabicNumber = (num: number) => {

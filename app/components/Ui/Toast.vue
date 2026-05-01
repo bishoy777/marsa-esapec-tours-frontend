@@ -27,10 +27,10 @@ const toastClass = (type: string) => {
     }
 }
 onMounted(() => {
-    console.log("toasts.value")
+     
 })
 onUpdated(() => {
-    console.log('update')
+     
 })
 </script>
 

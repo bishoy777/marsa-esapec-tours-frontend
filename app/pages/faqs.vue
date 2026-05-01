@@ -175,7 +175,7 @@ const submit = async () => {
         openModal.value = false;
     } catch (error) {
         addToast("حدث خطأ", "error");
-        console.log(error);
+         
     } finally {
         buttonLoading.value = false;
     }
@@ -207,7 +207,7 @@ const removeFaq = async (id: number) => {
         refresh();
     } catch (error) {
         addToast("حدث خطأ اثناء الحذف", "error");
-        console.log(error);
+         
     }
 };
 const changeType = (type: string) => {

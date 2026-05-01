@@ -54,7 +54,7 @@ const pagination = ref({
     total: 1
 })
 const changePage = (page: number) => {
-    console.log("page changed sssto ", page)
+     
     pagination.value.page = page
     refresh()
 }
@@ -138,7 +138,7 @@ const submit = async () => {
         openModal.value = false
     } catch (error) {
         addToast("حدث خطأ  اضافة  الخط", "error")
-        console.log(error)
+         
     } finally {
         buttonLoading.value = false
     }
@@ -158,7 +158,7 @@ const removeSimCard = async (id: number) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ  حذف  الخط", "error")
-        console.log(error)
+         
     }
 }   
 </script>

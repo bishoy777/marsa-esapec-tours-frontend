@@ -116,7 +116,7 @@ const pagination = ref({
     total: 1
 })
 const changePage = (page: number) => {
-    console.log("page changed sssto ", page)
+     
     pagination.value.page = page
     refresh()
 }
@@ -133,7 +133,8 @@ const { data, pending, refresh } = useAsyncData('reservations', async () => {
         default: () => ({ data: [] }),
         server: false // 👈 VERY important for hydration mismatch 
     }
-); const filters = reactive({
+);
+ const filters = reactive({
     date: '',
     status: '',
     tripId: ''
@@ -165,7 +166,7 @@ const buttonLoading = ref<boolean>(false)
 const getTripsTypes = async () => {
     try {
         const res = await getTrips()
-        console.log(res.data)
+         
         selectedOptions.value = res.data?.data?.map((t: any) => ({
             id: t.id,
             value: t.name
@@ -273,7 +274,7 @@ const cols = ref([{
 }
 ])
 const rows = computed(() => {
-    console.log("data.value", data.value)
+     
     if (!data.value) return [];
     return data.value?.data?.data?.map((T: any) => ({
         id: { value: T.id, class: '' },
@@ -301,7 +302,7 @@ const submit = async () => {
         openModal.value = false
     } catch (error) {
         addToast("حدث خطأ اثناء انشاء الحجز  ", "error")
-        console.log(error)
+         
     } finally {
         buttonLoading.value = false
     }
@@ -317,7 +318,7 @@ const openOverly = (id: number, type: string) => {
 const detailsComponetPorps = computed(() => {
     if (!data.value) return {};
     const reservation = data.value.data?.data.find((T: any) => T.id === selectedId.value)
-    console.log("reservation", reservation)
+     
     return {
         customerName: reservation.name,
         tripName: reservation.trip.name,
@@ -333,7 +334,7 @@ const detailsComponetPorps = computed(() => {
     }
 })
 const changeStatus = async (status: string) => {
-    console.log("changeStatus", selectedId.value, status)
+     
     const payload = {
 
         status: status
@@ -344,7 +345,7 @@ const changeStatus = async (status: string) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء تعير حالة الحجز ", "error")
-        console.log(error)
+         
     }
 }
 const removeTripType = async (id: number) => {
@@ -355,20 +356,22 @@ const removeTripType = async (id: number) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء حذف الحجز ", "error")
-        console.log(error)
+         
     }
 }
 const applyFilters = async () => {
     try {
         const res = await filterReservation(filters)
+
         if (!data.value) return
+
         data.value = {
             ...data.value,
-            data: res.data
+            data: res,
         }
     } catch (error) {
-        addToast("حدث خطأ اثناء تطبيق الفلاتر ", "error")
-        console.log(error)
+        addToast("حدث خطأ اثناء تطبيق الفلاتر", "error")
+        console.error(error)
     }
 }
 const clearFilters = async () => {
@@ -379,7 +382,7 @@ const clearFilters = async () => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء مسح الفلاتر ", "error")
-        console.log(error)
+         
     }
 }
 </script>

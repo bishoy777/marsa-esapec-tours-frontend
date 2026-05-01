@@ -79,7 +79,7 @@ const errors = ref<Record<string, string | null>>({
 const getTripsTypes = async () => {
     try {
         const res = await getTrips()
-        console.log(res.data)
+         
         selectedOptions.value = res.data?.data?.map((t: any) => ({
             id: t.id,
             value: t.name
@@ -174,7 +174,7 @@ const submit = async () => {
         openModal.value = false
     } catch (error) {
         addToast("حدث خطأ اثناء اضافة التقيمم ", "error")
-        console.log(error)
+         
     } finally {
         buttonLoading.value = false
     }
@@ -193,7 +193,7 @@ const removeTripReview = async (id: number) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء التقييم ", "error")
-        console.log(error)
+         
     }
 }   
 </script>

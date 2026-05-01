@@ -156,7 +156,7 @@ const pagination = ref({
     total: 1
 })
 const changePage = (page: number) => {
-    console.log("page changed sssto ", page)
+     
     pagination.value.page = page
     refresh()
 }
@@ -249,7 +249,7 @@ const cols = ref([{
 },
 ])
 const rows = computed(() => {
-    console.log("data.value", data.value)
+     
     if (!data.value) return [];
     return data.value.data.map((T: any) => ({
         id: { value: T.id, class: '' },
@@ -277,7 +277,7 @@ const submit = async () => {
         openModal.value = false
     } catch (error) {
         addToast("حدث خطأ اثناء انشاء الحجز  ", "error")
-        console.log(error)
+         
     } finally {
         buttonLoading.value = false
     }
@@ -330,7 +330,7 @@ const removePackage = async (id: number) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء حذف الباقة ", "error")
-        console.log(error)
+         
     }
 }
 

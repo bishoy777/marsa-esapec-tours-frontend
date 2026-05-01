@@ -92,7 +92,7 @@ const rows = ref([{
 }, { name: { value: 'rezk' } }])
 const submit = () => {
     validateRequiredInput()
-    console.log(formData.value)
-    console.log(errors.value)
+     
+     
 }
 </script>

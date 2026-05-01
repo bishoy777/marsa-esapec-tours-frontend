@@ -169,7 +169,7 @@ const submit = async () => {
         openModal.value = false
     } catch (error) {
         addToast("حدث خطأ اثناء اضافة التقيمم ", "error")
-        console.log(error)
+         
     } finally {
         buttonLoading.value = false
     }
@@ -188,7 +188,7 @@ const removeTripReview = async (id: number) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء التقييم ", "error")
-        console.log(error)
+         
     }
 }
 const changeStatus = async (param: any) => {
@@ -198,7 +198,7 @@ const changeStatus = async (param: any) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء تغيير حالة  التقييم ", "error")
-        console.log(error)
+         
     }
 }
 </script>

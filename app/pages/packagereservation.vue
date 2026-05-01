@@ -96,7 +96,7 @@ const pagination = ref({
     total: 1
 })
 const changePage = (page: number) => {
-    console.log("page changed sssto ", page)
+     
     pagination.value.page = page
     refresh()
 }
@@ -255,7 +255,7 @@ const rows = computed(() => {
 //         openModal.value = false
 //     } catch (error) {
 //         addToast("حدث خطأ اثناء اضافة الرحلة", "error")
-//         console.log(error)
+//          
 //     } finally {
 //         buttonLoading.value = false
 //     }
@@ -276,7 +276,7 @@ const removeTaxiTransfer = async (id: number) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء عملية الحذفة", "error")
-        console.log(error)
+         
     }
 }   
 </script>
