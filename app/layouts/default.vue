@@ -44,6 +44,10 @@ const items = [{
     to: '/trips/reservations',
     text: "حجوزات الرحلات",
     icon: faUser
+},{
+    to: '/packagereservation',
+    text: "حجوزات الباقات",
+    icon: faUser
 },
 {
     to: '/trips/reviews',

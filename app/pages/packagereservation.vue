@@ -8,21 +8,52 @@
         </div>
         <section id="render_hidden_details">
             <UiBaseOverlay :open-modal="openModal">
-                <UiBaseFormModal @close="openModal = false" title="الخطوط">
+                <UiBaseFormModal @close="openModal = false" title="تفاصيل الرحلات والخطوط">
                     <template #form>
-                        <section class="p-4">
-                            <div v-if="!seletedRquest" class="text-center text-gray-400 py-10">
-                                لا يوجد طلبات
+                        <section class="p-6 bg-gray-50/50">
+                            <!-- Empty State -->
+                            <div v-if="!seletedRquest && (!selectedTrips || !selectedTrips.length)"
+                                class="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-gray-200">
+                                <div class="text-4xl mb-3 text-gray-300">📁</div>
+                                <p class="text-gray-400 font-medium">لا توجد طلبات أو رحلات حالياً</p>
                             </div>
-                            <div v-else class="bg-white border border-border rounded-xl p-5 shadow-sm space-y-3">
 
-                                <h2 class="font-semibold text-danger flex items-center gap-2">
-                                    📝 الطلبات الخاصة
-                                </h2>
+                            <div v-else class="space-y-5">
+                                <!-- Special Requests Card -->
+                                <div v-if="seletedRquest"
+                                    class="bg-white border border-red-100 rounded-2xl p-5 shadow-sm overflow-hidden relative">
+                                    <div class="absolute top-0 right-0 w-1 h-full bg-danger"></div>
 
-                                <p class="text-gray-500 leading-relaxed text-sm">
-                                    {{ seletedRquest }}
-                                </p>
+                                    <h2 class="font-bold text-danger flex items-center gap-2 mb-3 text-lg">
+                                        <span class="bg-red-50 p-2 rounded-lg">📝</span>
+                                        الطلبات الخاصة
+                                    </h2>
+
+                                    <p
+                                        class="text-gray-700 leading-relaxed bg-red-50/30 p-4 rounded-xl border border-red-50">
+                                        {{ seletedRquest }}
+                                    </p>
+                                </div>
+
+                                <!-- Trips Section -->
+                                <div v-if="selectedTrips && selectedTrips.length" class="space-y-3">
+                                    <h3 class="font-bold text-gray-800 flex items-center gap-2 px-1">
+                                        <span class="bg-blue-50 p-2 rounded-lg text-blue-600">🚌</span>
+                                        الرحلات
+                                    </h3>
+
+                                    <!-- Rich Grid of Trip Badges -->
+                                    <div class="flex flex-wrap gap-2">
+                                        <div v-for="(trip, index) in selectedTrips" :key="index"
+                                            class="flex items-center gap-2 bg-white border border-gray-200 hover:border-primary/40 hover:shadow-md transition-all duration-200 px-4 py-2.5 rounded-full shadow-sm">
+                                            <span
+                                                class="w-6 h-6 flex items-center justify-center bg-primary/10 text-primary text-xs font-bold rounded-full">
+                                                {{ index + 1 }}
+                                            </span>
+                                            <span class="text-gray-700 font-medium text-sm">{{ trip }}</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </section>
                     </template>
@@ -46,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { editTaxiTransfer, deleteSimreservation, addTaxiTransfer } from "@/services/trips";
+import { editTaxiTransfer, deletepackagereservation, addTaxiTransfer } from "@/services/trips";
 import { useValidation } from '@/composables/useValidation'; import {
     faEye, faTrash
 } from '@fortawesome/free-solid-svg-icons'
@@ -70,10 +101,10 @@ const changePage = (page: number) => {
     refresh()
 }
 const { data, pending, refresh } = useAsyncData(
-    'simreservation',
+    'packagereservation',
     async () => {
         const { $api } = useNuxtApp()
-        const res = await $api.get(`/simreservation?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
+        const res = await $api.get(`/packagereservation?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
         pagination.value.total = res?.data?.data?.total
         pagination.value.page = res?.data?.data?.page
         return res
@@ -163,20 +194,17 @@ const cols = ref([{
     key: 'phone',
     value: 'رقم الهاتف',
 }, {
-    key: 'simpackage',
-    value: ' الباقة',
-}, {
-    key: 'simcards',
-    value: "عدد الخطوط",
-}, {
-    key: 'delevirylocation',
-    value: 'مكان التسليم',
+    key: 'hotel',
+    value: ' اسم الفندق',
 }, {
     key: 'roomNumber',
-    value: 'رقم الغرفة او الرحلة',
+    value: "رقم الغرفة",
 }, {
     key: 'date',
-    value: 'تاريخ ',
+    value: ' التاريخ',
+}, {
+    key: 'peopleCount',
+    value: '  عدد الأشخاص',
 }, {
     key: 'totalPrice',
     value: 'السعر الاجمالي',
@@ -204,14 +232,14 @@ const rows = computed(() => {
     if (!data.value) return [];
     return data.value.data?.data?.map((T: any) => ({
         id: { value: T.id, class: '' },
-        name: { value: T.fullName, class: '' },
+        name: { value: T.name, class: '' },
         phone: { value: T.phone, class: '' },
-        simpackage: { value: T.simPackage, class: '' },
-        simcards: { value: T.cardsCount, class: '' },
-        date: { value: formatDate(T.date), class: '' },
-        delevirylocation: { value: T.deliveryLocation, class: '' },
+        hotel: { value: T.hotel, class: '' },
         roomNumber: { value: T.roomNumber, class: '' },
+        date: { value: formatDate(T.date), class: '' },
+        peopleCount: { value: T.peopleCount, class: '' },
         totalPrice: { value: T.price, class: '' },
+        trips: { value: T.trips.map(trip => trip.name), class: '' },
         specialRequest: { value: T.specialRequest, class: '' },
     }))
 })
@@ -232,15 +260,18 @@ const rows = computed(() => {
 //         buttonLoading.value = false
 //     }
 // }
-const seletedRquest = ref()
+const seletedRquest = ref();
+const selectedTrips = ref([]);
 const openoverly = (id: number) => {
     openModal.value = true
-    const selected = data.value?.data?.find((T: any) => T.id === id)
+    const selected = data.value?.data?.data?.find((T: any) => T.id === id)
+
     seletedRquest.value = selected.specialRequest
+    selectedTrips.value = selected.trips.map(trip => trip.name)
 }
 const removeTaxiTransfer = async (id: number) => {
     try {
-        await deleteSimreservation(id)
+        await deletepackagereservation(id)
         addToast("تم الحذف بنجاج ", "success")
         refresh()
     } catch (error) {

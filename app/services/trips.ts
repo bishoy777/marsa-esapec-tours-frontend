@@ -30,6 +30,13 @@ export async function deleteTaxiTransfer(id: number) {
   const { $api } = useNuxtApp();
   return await $api.delete(`/taxibooking/${id}`);
 }
+export async function deleteSimreservation(id: number) {
+  const { $api } = useNuxtApp();
+  return await $api.delete(`/simreservation/${id}`);
+}export async function deletepackagereservation(id: number) {
+  const { $api } = useNuxtApp();
+  return await $api.delete(`/packagereservation/${id}`);
+}
 export async function deleteSimCard(id: number) {
   const { $api } = useNuxtApp();
   return await $api.delete(`/simcards/${id}`);
