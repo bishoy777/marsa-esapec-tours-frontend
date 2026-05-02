@@ -24,6 +24,7 @@
 import { useValidation } from '@/composables/useValidation';
 import { login } from "@/services/login"
 import { useRouter } from 'vue-router';
+import { C } from 'vue-router/dist/router-CWoNjPRp.mjs';
 definePageMeta({
     layout: false
 })
@@ -41,23 +42,29 @@ const { validateRequiredInput, resetValues, resetErrors } = useValidation(formDa
 const handleLogin = async () => {
     const isValid = validateRequiredInput()
     if (!isValid) return
-     
+
     resetErrors()
     loading.value = true
     try {
-        const response = await login(formData.value)
+        console.log("config.public.apiBase");
+        const response = await login({
+            name: "zakaria",
+            password: "password"
+        })
+        console.log(response);
         const token = useCookie("token")
         token.value = response.data.user.token
         router.push('/')
     } catch (Err) {
+        console.log(Err);
     }
     finally {
         loading.value = false
         resetValues()
 
-         
+
     }
-     
+
 
 }
 </script>

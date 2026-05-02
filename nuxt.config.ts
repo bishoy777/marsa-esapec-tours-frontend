@@ -12,9 +12,9 @@ export default defineNuxtConfig({
     defaultImport: "component", // This makes it work like vite-svg-loader
   },
   runtimeConfig: {
-    apiSecret: process.env.apiBase,
+    apiSecret: process.env.NUXT_API_SECRET,
     public: {
-      apiBase: process.env.apiBase,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
     },
   },
 });

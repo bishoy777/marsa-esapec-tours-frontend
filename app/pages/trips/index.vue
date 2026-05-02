@@ -213,7 +213,8 @@
 import {
     faEye, faPen, faTrash
 } from '@fortawesome/free-solid-svg-icons'
-import { deleteImage, addImage, getTripTypes, addTrip, deleteTrip, editTrip, edtiReviewStatus } from '~/services/trips'; definePageMeta({
+import { deleteImage, addImage, getTripTypes, addTrip, deleteTrip, editTrip, edtiReviewStatus } from '~/services/trips'; 
+definePageMeta({
     middleware: 'auth'
 })
 import { useToast } from '@/composables/useToast';
