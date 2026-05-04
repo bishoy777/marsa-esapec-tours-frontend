@@ -72,7 +72,7 @@
                                     @keyup.enter="refresh" />
                             </div>
                             <!-- New Search Button -->
-                            <button @click="refresh"
+                            <button @click="refresh()"
                                 class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-sm flex items-center gap-2">
                                 <span>بحث</span>
                             </button>
@@ -84,15 +84,14 @@
                         <!-- Rows Per Page Selector -->
                         <div class="flex items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-1">
                             <span class="text-xs font-bold text-gray-500 uppercase tracking-wider mr-3">Show</span>
-                            <select v-model="pagination.perpage"
+                            <select v-model="pagination?.perpage"
                                 class="bg-transparent text-sm font-semibold text-gray-700 outline-none cursor-pointer py-1.5"
-                                @change="refresh">
+                                @change="refresh()">
                                 <option value="10">10 رحلة</option>
                                 <option value="25">25 رحلة</option>
                                 <option value="50">50 رحلة</option>
                             </select>
                         </div>
-
                         <div class="hidden sm:block px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium">
                             عدد الرحلات: {{ pagination.total }} رحلة
                         </div>
