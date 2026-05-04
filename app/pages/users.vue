@@ -13,7 +13,7 @@ definePageMeta({
 })
 const pagination = {
     page: 1,
-    perpage: 10,
+    perPage: 10,
     total: 1
 }
 const cols = ref([{
