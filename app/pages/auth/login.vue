@@ -24,7 +24,6 @@
 import { useValidation } from '@/composables/useValidation';
 import { login } from "@/services/login"
 import { useRouter } from 'vue-router';
-import { C } from 'vue-router/dist/router-CWoNjPRp.mjs';
 definePageMeta({
     layout: false
 })

@@ -65,11 +65,11 @@
                                     class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-blue-500 transition-colors">
 
                                 </div>
-                                <!-- Removed @input="onSearch" -->
+                           
                                 <input v-model="searchQuery" type="text"
                                     placeholder="ابحث عن رحلة... باستخدام مكان الانطلاق"
                                     class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
-                                    @keyup.enter="refresh" />
+                                    @keyup.enter="refresh()" />
                             </div>
                             <!-- New Search Button -->
                             <button @click="refresh()"
@@ -78,13 +78,11 @@
                             </button>
                         </div>
                     </div>
-
-                    <!-- Right Side: Controls -->
                     <div class="flex flex-wrap items-center gap-4">
-                        <!-- Rows Per Page Selector -->
+                
                         <div class="flex items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-1">
                             <span class="text-xs font-bold text-gray-500 uppercase tracking-wider mr-3">Show</span>
-                            <select v-model="pagination?.perpage"
+                            <select v-model="pagination.perpage"
                                 class="bg-transparent text-sm font-semibold text-gray-700 outline-none cursor-pointer py-1.5"
                                 @change="refresh()">
                                 <option value="10">10 رحلة</option>
@@ -93,7 +91,7 @@
                             </select>
                         </div>
                         <div class="hidden sm:block px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium">
-                            عدد الرحلات: {{ pagination.total }} رحلة
+                            عدد الرحلات: {{ pagination?.total }} رحلة
                         </div>
                     </div>
 
@@ -137,7 +135,7 @@ const changePage = (page: number) => {
     pagination.value.page = page
     refresh()
 }
-const searchQuery = ref("")
+const searchQuery = ref<string>("")
 const { data, pending, refresh } = useAsyncData(
     'taxi',
     async () => {
