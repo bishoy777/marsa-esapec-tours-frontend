@@ -28,9 +28,8 @@
             <section id="table">
                 <UiTableBaseTable :cols="cols" :rows="rows" :loading="pending"><template #edit="{ row }"
                         :pagination="pagination">
-
                         <div class="flex  gap-2">
-                            <!-- Accept -->
+                      
                             <button :disabled="row.status === 'accepted'" class="px-3 py-1 text-sm rounded-lg" :class="row.status == 'accepted'
                                 ? 'bg-gray-300 cursor-not-allowed'
                                 : 'bg-green-500 text-white hover:bg-green-600'"
