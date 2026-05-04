@@ -13,11 +13,11 @@
             </button>
 
             <button @click="changeType('taxifaqs')" :class="buttonClass('taxifaqs')">
-                 اسئلة بخصوص التاكسي
+                اسئلة بخصوص التاكسي
             </button>
 
             <button @click="changeType('simfaqs')" :class="buttonClass('simfaqs')">
-                 اسئلة بخصوص خط الانترنت
+                اسئلة بخصوص خط الانترنت
             </button>
         </div>
         <!-- MODAL -->
@@ -37,7 +37,7 @@
 
         <!-- TABLE -->
         <div class="bg-gray-50 py-10">
-            <UiTableBaseTable :cols="cols" :rows="rows" :loading="pending">
+            <UiTableBaseTable :cols="cols" :rows="rows" :loading="pending" :pagination="pagination">
                 <template #actions="{ row }">
                     <!-- <button class="btn" @click="openoverly(row.id.value, 'edit')">
                         <font-awesome-icon :icon="faPen" />
@@ -57,7 +57,11 @@ import { addFaq, deleteFaq } from "@/services/trips";
 import { useValidation } from "@/composables/useValidation";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useToast } from "@/composables/useToast";
-
+const pagination = {
+    page: 1,
+    perpage: 10,
+    total: 1
+}
 definePageMeta({
     middleware: "auth",
 });
@@ -175,7 +179,7 @@ const submit = async () => {
         openModal.value = false;
     } catch (error) {
         addToast("حدث خطأ", "error");
-         
+
     } finally {
         buttonLoading.value = false;
     }
@@ -207,7 +211,7 @@ const removeFaq = async (id: number) => {
         refresh();
     } catch (error) {
         addToast("حدث خطأ اثناء الحذف", "error");
-         
+
     }
 };
 const changeType = (type: string) => {

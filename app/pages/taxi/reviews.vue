@@ -26,7 +26,8 @@
         </section>
         <div class="bg-gray-50 py-10">
             <section id="table">
-                <UiTableBaseTable :cols="cols" :rows="rows" :loading="pending"><template #edit="{ row }">
+                <UiTableBaseTable :cols="cols" :rows="rows" :loading="pending"><template #edit="{ row }"
+                        :pagination="pagination">
 
                         <div class="flex  gap-2">
                             <!-- Accept -->
@@ -58,6 +59,11 @@
 </template>
 
 <script setup lang="ts">
+const pagination = {
+    page: 1,
+    perpage: 10,
+    total: 1
+}
 import { addTaxiReview, deleteTaxiReview, edtiTaxiReviewStatus } from "@/services/trips";
 import { useValidation } from '@/composables/useValidation'; import {
     faPen, faTrash
@@ -169,7 +175,7 @@ const submit = async () => {
         openModal.value = false
     } catch (error) {
         addToast("حدث خطأ اثناء اضافة التقيمم ", "error")
-         
+
     } finally {
         buttonLoading.value = false
     }
@@ -188,7 +194,7 @@ const removeTaxiReview = async (id: number) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء التقييم ", "error")
-         
+
     }
 }
 const changeStatus = async (param: any) => {
@@ -198,7 +204,7 @@ const changeStatus = async (param: any) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء تغيير حالة  التقييم ", "error")
-         
+
     }
 }
 </script>
