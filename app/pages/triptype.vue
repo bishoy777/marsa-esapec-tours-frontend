@@ -22,8 +22,8 @@
         </section>
         <div class="bg-gray-50 py-10">
             <section id="table">
-                <UiTableBaseTable :cols="cols" :rows="rows" :loading="pending"><template #actions="{ row }"><button
-                            class="btn" @click="openoverly(row.id.value, 'edit')">
+                <UiTableBaseTable :cols="cols" :rows="rows" :loading="pending" :pagination="pagination"><template
+                        #actions="{ row }"><button class="btn" @click="openoverly(row.id.value, 'edit')">
                             <font-awesome-icon :icon="faPen" />
                         </button><button class="btn mx-3" @click="removeTripType(row.id.value)">
                             <font-awesome-icon :icon="faTrash" />
@@ -40,9 +40,15 @@ import { useValidation } from '@/composables/useValidation'; import {
     faPen, faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import { useToast } from "@/composables/useToast";
+const pagination = {
+    page: 1,
+    perpage: 10,
+    total: 1
+}
 definePageMeta({
     middleware: 'auth'
 })
+
 const { addToast } = useToast()
 // const { data, pending, refresh } = useAsyncData('trips', async () => {
 //     const { $api } = useNuxtApp()
@@ -90,8 +96,8 @@ const cols = ref([{
 },
 ])
 const rows = computed(() => {
-    
-    if (!data.value) return []; 
+
+    if (!data.value) return [];
     return data.value.data.map((T: any) => ({
         id: { value: T.id, class: '' },
         type: { value: T.type, class: '' },
@@ -109,7 +115,7 @@ const submit = async () => {
         openModal.value = false
     } catch (error) {
         addToast("حدث خطأ اثناء اضافة نوع الرحلة", "error")
-         
+
     } finally {
         buttonLoading.value = false
     }
@@ -131,7 +137,7 @@ const removeTripType = async (id: number) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء حذف نوع الرحلة", "error")
-         
+
     }
 }   
 </script>
