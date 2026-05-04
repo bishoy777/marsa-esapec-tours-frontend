@@ -26,7 +26,8 @@
         </section>
         <div class="bg-gray-50 py-10">
             <section id="table">
-                <UiTableBaseTable :cols="cols" :rows="rows" :loading="pending"><template #actions="{ row }">
+                <UiTableBaseTable :cols="cols" :rows="rows" :loading="pending" :pagination="pagination"
+                    @changePage="changePage"><template #actions="{ row }">
 
                         <button class="btn mx-3" @click="removeTripReview(row.id.value)">
                             <font-awesome-icon :icon="faTrash" />
@@ -53,11 +54,24 @@ const selectedOptions = ref<Record<string, string | number>[]>([{}])
 //     const { $api } = useNuxtApp()
 //     return await $api.get('/trip-type')
 // });
+const pagination = ref({
+    page: 1,
+    perpage: 10,
+    total: 1
+})
+const changePage = (page: number) => {
+
+    pagination.value.page = page
+    refresh()
+}
 const { data, pending, refresh } = useAsyncData(
     'trip-reviews',
     async () => {
         const { $api } = useNuxtApp()
-        return await $api.get('/trip-reviews')
+        const res = await $api.get(`/trip-reviews?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage || 10}`)
+        pagination.value = res?.data?.pagination
+        return res
+
     },
     {
         default: () => ({ data: [] }),
@@ -79,7 +93,7 @@ const errors = ref<Record<string, string | null>>({
 const getTripsTypes = async () => {
     try {
         const res = await getTrips()
-         
+
         selectedOptions.value = res.data?.data?.map((t: any) => ({
             id: t.id,
             value: t.name
@@ -174,7 +188,7 @@ const submit = async () => {
         openModal.value = false
     } catch (error) {
         addToast("حدث خطأ اثناء اضافة التقيمم ", "error")
-         
+
     } finally {
         buttonLoading.value = false
     }
@@ -193,7 +207,7 @@ const removeTripReview = async (id: number) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء التقييم ", "error")
-         
+
     }
 }   
 </script>

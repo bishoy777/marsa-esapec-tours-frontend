@@ -213,7 +213,7 @@
 import {
     faEye, faPen, faTrash
 } from '@fortawesome/free-solid-svg-icons'
-import { deleteImage, addImage, getTripTypes, addTrip, deleteTrip, editTrip, edtiReviewStatus } from '~/services/trips'; 
+import { deleteImage, addImage, getTripTypes, addTrip, deleteTrip, editTrip, edtiReviewStatus } from '~/services/trips';
 definePageMeta({
     middleware: 'auth'
 })
@@ -234,9 +234,9 @@ const changePage = (page: number) => {
 }
 const { data, pending, refresh } = useAsyncData('trips', async () => {
     const { $api } = useNuxtApp()
-    const res = $api.get(`/trip?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
-    pagination.value.total = res?.data?.data?.total
-    pagination.value.page = res?.data?.data?.page
+    const res = await $api.get(`/trip?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage || 10}`)
+
+    pagination.value = res?.data?.pagination
     return res
 }, {
     default: () => ({ data: [] }),

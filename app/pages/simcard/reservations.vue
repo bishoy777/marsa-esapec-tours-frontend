@@ -65,7 +65,7 @@ const pagination = ref({
     total: 1
 })
 const changePage = (page: number) => {
-     
+
     pagination.value.page = page
     refresh()
 }
@@ -73,9 +73,8 @@ const { data, pending, refresh } = useAsyncData(
     'simreservation',
     async () => {
         const { $api } = useNuxtApp()
-        const res = await $api.get(`/simreservation?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
-        pagination.value.total = res?.data?.data?.total
-        pagination.value.page = res?.data?.data?.page
+        const res = await $api.get(`/simreservation?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage || 10}`)
+        pagination.value = res?.data?.pagination
         return res
 
     },
@@ -245,7 +244,7 @@ const removeTaxiTransfer = async (id: number) => {
         refresh()
     } catch (error) {
         addToast("حدث خطأ اثناء عملية الحذفة", "error")
-         
+
     }
 }   
 </script>

@@ -124,9 +124,8 @@ const { addToast } = useToast();
 const selectedOptions = ref<Record<string, string | number>[]>([{}])
 const { data, pending, refresh } = useAsyncData('reservations', async () => {
     const { $api } = useNuxtApp()
-    const res = await $api.get(`/reservations?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
-    pagination.value.total = res?.data?.data?.total
-    pagination.value.page = res?.data?.data?.page
+    const res = await $api.get(`/reservations?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage || 10}`)
+    pagination.value = res?.data?.pagination
     return res
 },
     {
@@ -160,7 +159,7 @@ const errors = ref<Record<string, string | null>>({
 })
 const modalType = ref<"add" | "view">("add")
 const selectedId = ref<number | null>(null)
-const { validateRequiredInput, resetValues  ,resetErrors} = useValidation(formData.value, errors.value, ['name', 'phone', 'date', 'tripId'])
+const { validateRequiredInput, resetValues, resetErrors } = useValidation(formData.value, errors.value, ['name', 'phone', 'date', 'tripId'])
 const buttonLoading = ref<boolean>(false)
 const getTripsTypes = async () => {
     try {
@@ -293,8 +292,8 @@ const submit = async () => {
     const valid = validateRequiredInput()
     console.log(errors.value)
     buttonLoading.value = true
-    if (!valid) return; 
- console.log("errors.value")
+    if (!valid) return;
+    console.log("errors.value")
     try {
         const res = await addResvartion(formData.value)
         addToast("تم انشاء الحجز بنجاح ", "success")

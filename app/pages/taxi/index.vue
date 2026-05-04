@@ -52,6 +52,54 @@
             </UiBaseOverlay>
         </section>
         <div class="bg-gray-50 py-10">
+            <!-- Search & Filter Header -->
+            <div class="bg-white border border-gray-100 rounded-xl shadow-sm p-5 mb-6">
+                <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+
+                    <!-- Left Side: Search with Input & Button -->
+                    <div class="flex-1 max-w-2xl">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Search Trips</label>
+                        <div class="flex items-center gap-2">
+                            <div class="relative flex-1 group">
+                                <div
+                                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-blue-500 transition-colors">
+
+                                </div>
+                                <!-- Removed @input="onSearch" -->
+                                <input v-model="searchQuery" type="text"
+                                    placeholder="ابحث عن رحلة... باستخدام مكان الانطلاق"
+                                    class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                                    @keyup.enter="refresh" />
+                            </div>
+                            <!-- New Search Button -->
+                            <button @click="refresh"
+                                class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-sm flex items-center gap-2">
+                                <span>بحث</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Controls -->
+                    <div class="flex flex-wrap items-center gap-4">
+                        <!-- Rows Per Page Selector -->
+                        <div class="flex items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-1">
+                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider mr-3">Show</span>
+                            <select v-model="pagination.perpage"
+                                class="bg-transparent text-sm font-semibold text-gray-700 outline-none cursor-pointer py-1.5"
+                                @change="refresh">
+                                <option value="10">10 رحلة</option>
+                                <option value="25">25 رحلة</option>
+                                <option value="50">50 رحلة</option>
+                            </select>
+                        </div>
+
+                        <div class="hidden sm:block px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium">
+                            عدد الرحلات: {{ pagination.total }} رحلة
+                        </div>
+                    </div>
+
+                </div>
+            </div>
             <section id="table">
                 <UiTableBaseTable :cols="cols" :rows="rows" :loading="pending" :pagination="pagination"
                     @changePage="changePage"><template #actions="{ row }"><button class="btn"
@@ -67,7 +115,7 @@
 </template>
 
 <script setup lang="ts">
-import { editTaxiTransfer, deleteTaxiTrip, addTaxiTransfer } from "@/services/trips";
+import { editTaxiTransfer, deleteTaxiTrip, addTaxiTransfer, taxiSearch } from "@/services/trips";
 import { useValidation } from '@/composables/useValidation'; import {
     faPen, faTrash
 } from '@fortawesome/free-solid-svg-icons'
@@ -90,14 +138,17 @@ const changePage = (page: number) => {
     pagination.value.page = page
     refresh()
 }
+const searchQuery = ref("")
 const { data, pending, refresh } = useAsyncData(
     'taxi',
     async () => {
 
         const { $api } = useNuxtApp()
-        const res = await $api.get(`/taxi?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
-        pagination.value.total = res?.data?.data?.total
-        pagination.value.page = res?.data?.data?.page
+        const res = await $api.get(`/taxi?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage || 10}${searchQuery.value ? `&search=${searchQuery.value}` : ''}`)
+        console.log(res.data, "taxi data")
+        console.log(res?.data?.pagination, "s data")
+        pagination.value = res?.data?.pagination
+
         return res
 
     },

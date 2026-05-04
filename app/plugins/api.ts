@@ -7,7 +7,6 @@ import type {
   AxiosError,
 } from "axios";
 export default defineNuxtPlugin((nuxtApp) => {
-  console.log("config.public.nuxtApp");
   const { addToast } = useToast();
   const config = useRuntimeConfig();
 
@@ -17,7 +16,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   instance.interceptors.request.use(
     (axiosConfig: InternalAxiosRequestConfig) => {
-      console.log(config.public);
+    
       const token = useCookie("token").value;
       axiosConfig.headers.Authorization = `Barear ${token}`;
       axiosConfig.headers["Accept-Language"] = "ar";

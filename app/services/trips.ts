@@ -66,6 +66,14 @@ export async function filterReservation(query: any) {
 
   return res.data; // ✅ FIX
 }
+export async function taxiSearch(query: any) {
+  const { $api } = useNuxtApp();
+  const res = await $api.get("/taxi", {
+    params: query,
+  });
+
+  return res.data; // ✅ FIX
+}
 export async function addImage(id: number, param: any) {
   const { $api } = useNuxtApp();
   return await $api.patch(`/trip/${id}`, param);

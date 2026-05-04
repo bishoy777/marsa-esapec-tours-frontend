@@ -104,9 +104,8 @@ const { data, pending, refresh } = useAsyncData(
     'packagereservation',
     async () => {
         const { $api } = useNuxtApp()
-        const res = await $api.get(`/packagereservation?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage}`)
-        pagination.value.total = res?.data?.data?.total
-        pagination.value.page = res?.data?.data?.page
+        const res = await $api.get(`/packagereservation?page=${pagination.value.page || 1}&perPage=${pagination.value.perpage || 10}`)
+        pagination.value = res?.data?.pagination
         return res
 
     },
