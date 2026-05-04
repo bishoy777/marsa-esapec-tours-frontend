@@ -26,8 +26,8 @@
         </section>
         <div class="bg-gray-50 py-10">
             <section id="table">
-                <UiTableBaseTable :cols="cols" :rows="rows" :loading="pending"><template #edit="{ row }"
-                        :pagination="pagination">
+                <UiTableBaseTable :cols="cols" :rows="rows" :loading="pending" :pagination="pagination"><template
+                        #edit="{ row }">
 
                         <div class="flex  gap-2">
                             <!-- Accept -->
@@ -69,7 +69,7 @@ definePageMeta({
 })
 const pagination = {
     page: 1,
-    perpage: 10,
+    perPage: 10,
     total: 1
 }
 const { addToast } = useToast();

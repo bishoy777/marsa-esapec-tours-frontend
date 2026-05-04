@@ -59,7 +59,7 @@ import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useToast } from "@/composables/useToast";
 const pagination = {
     page: 1,
-    perpage: 10,
+    perPage: 10,
     total: 1
 }
 definePageMeta({
