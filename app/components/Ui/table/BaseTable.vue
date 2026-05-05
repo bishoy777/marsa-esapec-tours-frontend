@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="bg-card border border-border rounded-xl overflow-hidden">
+        <div class="bg-card border border-border rounded-xl ">
             <!-- Added 'block md:table' to allow stacking on mobile -->
             <table class="w-full text-sm text-right block md:table">
                 <!-- Hidden on mobile -->
