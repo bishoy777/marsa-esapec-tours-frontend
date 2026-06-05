@@ -58,16 +58,35 @@ const fullImages = computed(() => {
 const selectedImage = ref<string>('');
 const formData = ref<FormData>(new FormData());
 
-const addImg = (e: Event) => {
-    const target = e.target as HTMLInputElement
-    if (!target.files?.length) return
+import imageCompression from 'browser-image-compression';
 
-    // Clear previous form data if you want fresh upload per click, 
-    // or keep it to append as per your original logic.
+const addImg = async (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    if (!target.files?.length) return;
+
+    const compressedFiles = [];
+
+    for (const file of Array.from(target.files)) {
+        const compressed = await imageCompression(file, {
+            maxSizeMB: 0.5,        // 👈 max size per image (0.5MB)
+            maxWidthOrHeight: 1920, // 👈 resize big images
+            useWebWorker: true,
+        });
+
+        // convert Blob → File (important for FormData)
+        const compressedFile = new File([compressed], file.name, {
+            type: compressed.type,
+        });
+
+        compressedFiles.push(compressedFile);
+    }
+
     const newFormData = new FormData();
-    Array.from(target.files).forEach((file) => {
-        newFormData.append(`images`, file)
-    })
-    emits('addImage', newFormData)
-}
+
+    compressedFiles.forEach((file) => {
+        newFormData.append('images', file);
+    });
+
+    emits('addImage', newFormData);
+};
 </script>
