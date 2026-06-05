@@ -49,7 +49,7 @@ const { images } = toRefs(props)
 const fullImages = computed(() => {
     return images.value.map(img => {
         return {
-            url: `${BASE_URL}${img.url}`,
+            url: `${img.url}`,
             id: img.id
         }
     })
